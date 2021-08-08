@@ -1,0 +1,16 @@
+{
+  "name": "03-task_to_do",
+  "version": "0.0.1",
+  "description": "Console app for the task managment",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cristian Bustos",
+  "license": "MIT",
+  "dependencies": {
+    "colors": "^1.4.0",
+    "inquirer": "^8.1.2",
+    "uuid": "^8.3.2"
+  }
+}
