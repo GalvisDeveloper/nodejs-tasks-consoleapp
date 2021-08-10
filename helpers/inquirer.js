@@ -2,6 +2,9 @@ const inquirer = require("inquirer");
 
 require("colors");
 
+/**
+ * Menu Options
+ */
 const menuOpts = [
   {
     type: "list",
@@ -40,6 +43,9 @@ const menuOpts = [
   },
 ];
 
+/**
+ * Menu Options displayed once u run the app for the first time, thanks to inquirer
+ */
 const inquirerMenu = async (req, res) => {
   console.clear();
   console.log("=====================".green);
@@ -51,6 +57,9 @@ const inquirerMenu = async (req, res) => {
   return option;
 };
 
+/**
+ * Wait for the user action in the menu option, to take control of it
+ */
 const inquirerPause = async (req, res) => {
   const pauseEvt = [
     {
@@ -64,6 +73,9 @@ const inquirerPause = async (req, res) => {
   await inquirer.prompt(pauseEvt);
 };
 
+/**
+ * Method that allows the user to type or move through menu with keyboard
+ */
 const readInput = async (message) => {
   const question = [
     {
@@ -81,8 +93,55 @@ const readInput = async (message) => {
   return desc;
 };
 
+/**
+ * Method that prints whole tasks to be selected for deletion
+ */
+const listTasksToDelete = async (tasks = []) => {
+  const choices = tasks.map((task, idx) => {
+    const i = `${idx + 1}.`.green;
+    return {
+      value: task.id,
+      name: `${i} ${task.desc}`,
+    };
+  });
+
+  choices.unshift({
+    value: "0",
+    name: "0. ".green + "Cancelar",
+  });
+
+  const questions = [
+    {
+      type: "list",
+      name: "id",
+      message: "Delete",
+      choices,
+    },
+  ];
+  const { id } = await inquirer.prompt(questions);
+
+  return id;
+};
+
+/**
+ * Handle confirmation method
+ */
+const confirm = async (message) => {
+  const question = [
+    {
+      type: "confirm", // return a boolean
+      name: "ok",
+      message,
+    },
+  ];
+  const { ok } = await inquirer.prompt(question);
+  return ok;
+};
+
 module.exports = {
   inquirerMenu,
   inquirerPause,
   readInput,
+  listTasksToDelete,
+  confirm,
 };

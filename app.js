@@ -3,6 +3,8 @@ const {
   inquirerMenu,
   inquirerPause,
   readInput,
+  listTasksToDelete,
+  confirm,
 } = require("./helpers/inquirer");
 const { saveFileInDB, readFileInDB } = require("./helpers/handleFile");
 
@@ -52,6 +54,15 @@ const main = async () => {
         break;
       case "6":
         //Delete task
+        const id = await listTasksToDelete(tasks.listArr);
+        //TODO: ask if the user is aware of the removal
+        if (id !== "0") {
+          const ok = await confirm("Are you sure of it?");
+          if (ok) {
+            tasks.deleteTask(id);
+            console.log("\nTask Deleted");
+          }
+        }
         break;
       case "0":
         //Close

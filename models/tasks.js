@@ -1,4 +1,5 @@
 /**
+ * Object example
  * _list:
  * {'uuid-123123-123123-12: {id: 12, desc: 'asd', completedAt: '09/02/2022'} '}
  */
@@ -10,6 +11,9 @@ require("colors");
 class Tasks {
   _list = {};
 
+  /**
+   * Getter Method
+   */
   get listArr() {
     const list = [];
     Object.keys(this._list).forEach((key) => {
@@ -20,21 +24,40 @@ class Tasks {
     return list;
   }
 
+  /**
+   * Class constructor
+   */
   constructor() {
     this._list = {};
   }
 
+  /**
+   * Load tasks from an array
+   */
   loadTasksFromArray = (tasks = []) => {
     tasks.forEach((task) => {
       this._list[task.id] = task;
     });
   };
 
+  /**
+   * Create task method
+   */
   createTask(desc = "") {
     const task = new Task(desc);
     this._list[task.id] = task;
   }
 
+  /**
+   * Delete task method
+   */
+  deleteTask(id = "") {
+    if (this._list[id]) delete this._list[id];
+  }
+
+  /**
+   * Get full list of tasks method
+   */
   fullList() {
     console.log("\nTasks: \n".yellow);
     this.listArr.forEach((tasks, idx) => {
@@ -45,6 +68,9 @@ class Tasks {
     });
   }
 
+  /**
+   * Get list of tasks that have been completed or are pending to
+   */
   listCompleted(completed = true) {
     let count = 0;
     console.log("\nTasks: \n".yellow);
@@ -55,13 +81,13 @@ class Tasks {
         //Display completed
         if (completedAt) {
           count += 1;
-          console.log(`${count.toString().green} ${desc} :: ${taskStatus}`);
+          console.log(`${(count + ".").green} ${desc} :: ${completedAt.green}`);
         }
       } else {
         //Display pendants
         if (!completedAt) {
           count += 1;
-          console.log(`${count.toString().green} ${desc} :: ${taskStatus}`);
+          console.log(`${(count + ".").green} ${desc} :: ${taskStatus}`);
         }
       }
     });
