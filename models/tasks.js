@@ -93,6 +93,9 @@ class Tasks {
     });
   }
 
+  /**
+   * Method that allows mark a task as completed or pendant in a group
+   */
   toogleCompleted(ids = []) {
     ids.forEach((id) => {
       const task = this._list[id];
@@ -104,8 +107,6 @@ class Tasks {
     this.listArr.forEach((task) => {
       if (!ids.includes(task.id)) {
         this._list[task.id].completedAt = null;
-        // const task = this._list(id);
-        // task.completedAt = null;
       }
     });
   }
