@@ -9,7 +9,7 @@ const menuOpts = [
   {
     type: "list",
     name: "option",
-    message: "What you wish to do?",
+    message: "What do you wish to do?",
     choices: [
       {
         value: "1",
@@ -124,6 +124,32 @@ const listTasksToDelete = async (tasks = []) => {
 };
 
 /**
+ * Method that displays a list of tasks to be done in a group (Complete or Delete)
+ */
+const displayChecklist = async (tasks = []) => {
+  const choices = tasks.map((task, idx) => {
+    const i = `${idx + 1}.`.green;
+    return {
+      value: task.id,
+      name: `${i} ${task.desc}`,
+      checked: task.completedAt ? true : false,
+    };
+  });
+
+  const questions = [
+    {
+      type: "checkbox",
+      name: "ids",
+      message: "Selections",
+      choices,
+    },
+  ];
+  const { ids } = await inquirer.prompt(questions);
+
+  return ids;
+};
+
+/**
  * Handle confirmation method
  */
 const confirm = async (message) => {
@@ -144,4 +170,5 @@ module.exports = {
   readInput,
   listTasksToDelete,
   confirm,
+  displayChecklist,
 };

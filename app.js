@@ -5,14 +5,11 @@ const {
   readInput,
   listTasksToDelete,
   confirm,
+  displayChecklist,
 } = require("./helpers/inquirer");
 const { saveFileInDB, readFileInDB } = require("./helpers/handleFile");
 
 const Tasks = require("./models/tasks");
-
-// const { showMenu, pause } = require("./helpers/messages");
-
-// console.clear();
 
 const main = async () => {
   let opt = "";
@@ -39,7 +36,6 @@ const main = async () => {
       case "2":
         //List tasks
         tasks.fullList();
-        // console.log(tasks.listArr);
         break;
       case "3":
         //List completed task
@@ -51,11 +47,13 @@ const main = async () => {
         break;
       case "5":
         //Complete task
+        const ids = await displayChecklist(tasks.listArr);
+        tasks.toogleCompleted(ids);
+        console.log(ids);
         break;
       case "6":
         //Delete task
         const id = await listTasksToDelete(tasks.listArr);
-        //TODO: ask if the user is aware of the removal
         if (id !== "0") {
           const ok = await confirm("Are you sure of it?");
           if (ok) {
@@ -78,11 +76,3 @@ const main = async () => {
 };
 
 main();
-
-// do { } ---> tests
-// const task = new Task("Buy food");
-
-// tasks._list[task.id] = task;
-
-// console.log(tasks);
-// if (opt !== "0") await pause();
